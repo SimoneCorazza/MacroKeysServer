@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-
-
 public class OptionManager {
 	
 	private Map<String, byte[]> map = new HashMap<>();
@@ -69,7 +67,7 @@ public class OptionManager {
 		} catch(IOException e) {
 			throw e;
 		} finally {
-			is.close();
+			di.close();
 		}
 	}
 	
@@ -96,7 +94,7 @@ public class OptionManager {
 			throw e;
 		} finally {
 			try {
-				os.close();
+				ds.close();
 			} catch(IOException e) {
 				// Ignoro
 			}
