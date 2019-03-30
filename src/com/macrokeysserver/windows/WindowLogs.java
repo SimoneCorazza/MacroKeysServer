@@ -10,7 +10,7 @@ import com.macrokeysserver.logging.LogDatabase.LogRecordCursor;
 import com.macrokeysserver.logging.ServerLogComponent;
 
 /**
- * Finestra per mostrare la storia dei log
+ * Window to show the log history
  */
 public class WindowLogs extends JDialog {
 	

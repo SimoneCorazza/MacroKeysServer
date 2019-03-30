@@ -1,6 +1,6 @@
 package com.macrokeysserver.math;
 
-/** Classe per fare la media matematica di valori {@link int} */
+/** Class to calculate the averege of {@link int} */
 public class Average {
 	
 	private int c = 0;
@@ -13,8 +13,8 @@ public class Average {
 	}
 	
 	/**
-	 * Aggiunge un valore alla media
-	 * @param i Valore da aggiungere
+	 * Add a value to the average
+	 * @param i Value to add
 	 */
 	public void add(int i) {
 		sum += i;
@@ -23,7 +23,7 @@ public class Average {
 	}
 	
 	/**
-	 * @return Media
+	 * @return Average
 	 */
 	public int average() {
 		return avg;

@@ -13,28 +13,28 @@ import javax.microedition.io.StreamConnection;
 import javax.microedition.io.StreamConnectionNotifier;
 
 /**
- * Implementazione di 
+ * Bluetooth implementation of a {@link MacroServer}
  */
 public class MacroBluetoothServer extends MacroServer {
 	
 	/**
-	 * UUID per il servizio di bluetooth
+	 * UUID for the bluetooth service
 	 */
 	private static final String UUID = "a69cea44c6dd11e7abc4cec278b6b50a";
 	
 
-	/** Indica se il server accetta connessioni */
+	/** Indicates if the server accepts new connections */
 	private boolean seekConnection = true;
 	
 	/**
-	 * Per la gestione delle connessioni di nuovi client bluetooth
+	 * For the managment of the new bluetooth clients
 	 */
 	private StreamConnectionNotifier connectionNotifier;
 	
 	
 	/**
-	 * @param setup Setup inizialmente utilizzata
-	 * @throws AWTException In caso di errore nell'inizializzazione di {@link Robot}
+	 * @param setup Setup initially used
+	 * @throws AWTException In case of {@link Robot} init error
 	 */
 	public MacroBluetoothServer(MacroSetup setup) throws AWTException {
 		super(setup);
@@ -52,7 +52,7 @@ public class MacroBluetoothServer extends MacroServer {
 	
 	@Override
 	protected void introduceServerToClient() {
-		// Non usato
+		// Not used
 	}
 	
 	
@@ -87,7 +87,4 @@ public class MacroBluetoothServer extends MacroServer {
 			e.printStackTrace();
 		}
 	}
-	
-	
-
 }

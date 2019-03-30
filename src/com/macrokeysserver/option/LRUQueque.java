@@ -6,30 +6,33 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 
 /**
- * Coda gestica con politica LRU.
+ * QUeque with LRU policy
  * <p>
- * Le istanze vengono messe in una coda, se la coda supera il numero massimo
- * l'elemento in fondo alla coda (che è quello non usato da più tempo) viene rimosso.
+ * Items are placed inside a queque if the length of the queque excedes
+ * {@ #getLimit()} the older item is removed.
  * </p>
  * <p>
- * Se un'istanza è già presente (usato {@link #equals(Object)} come metodo
- * di confronto) allora viene portata in testa alla coda.
+ * If an item is already present ({@link #equals(Object)} is used to
+ * compare them) the item is not added to the queque, but the item
+ * that is already inside the queque is placed on the head of the queque.
  * </p>
  */
 public class LRUQueque<T> {
 	
-	/** Coda delle istanze; in testa ci sono gli elementi più recenti, in coda quelli più vecchi */
+	/** Queque of the items; in the head there are the most recent added elements in the tail therea are the oldest */
 	private List<T> obj = new LinkedList<>();
 	
-	/** Limite massimo della coda */
+	/** Limit of the queque */
 	private int limit;
 	
 	
 	/**
-	 * 
-	 * @param limit Limite massimo della cronologia; > 0
+	 * @param limit Limit of the queque; > 0
+	 * @throws IllegalArgumentException If {@code limit} is <= 0
 	 */
 	public LRUQueque(int limit) {
 		setLimit(limit);
@@ -37,7 +40,7 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * @return Lista di oggetti attualmente nella coda; lista non modificabile
+	 * @return List of the items in the queque; this list is not mutable
 	 */
 	public List<T> getObjects() {
 		return Collections.unmodifiableList(obj);
@@ -45,7 +48,7 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * @return Limite della cronologia
+	 * @return Limit of the size of the queque
 	 */
 	public int getLimit() {
 		return this.limit;
@@ -53,9 +56,9 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * Imposta il limite della cronologia
-	 * @param limit Limite
-	 * @throws IllegalArgumentException Se {@code limit} è <= 0
+	 * Set the limit of the queque
+	 * @param limit Limit of the size of the queque
+	 * @throws IllegalArgumentException If {@code limit} is <= 0
 	 */
 	public void setLimit(int limit) {
 		if(limit <= 0) {
@@ -67,11 +70,10 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * Aggiunge un item recente
-	 * @param item Item da aggiungere
-	 * @throws NullPointerException Se l'item è null
+	 * Add an item to the head of the queque
+	 * @param item item to add
 	 */
-	public void add(T item) {
+	public void add(@NonNull T item) {
 		if(item == null) {
 			throw new NullPointerException();
 		}
@@ -93,11 +95,10 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * Aggiunge tutti gli item nella collezione
-	 * @param c Collezione da aggiungere
-	 * @throws NullPointerException Se {@code c} è null
+	 * Adds the items in the queque
+	 * @param c Items to add
 	 */
-	public void addAll(Collection<T> c) {
+	public void addAll(@NonNull Collection<T> c) {
 		Objects.requireNonNull(c);
 		
 		for(T i : c) {
@@ -107,7 +108,7 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * Rimuove tutti gli elementi nella coda
+	 * Remove all items from the queque
 	 */
 	public void clear() {
 		obj.clear();
@@ -115,9 +116,9 @@ public class LRUQueque<T> {
 	
 	
 	/**
-	 * Indica se l'elemento è presente nella cronologia
-	 * @param item Elemento da cercare
-	 * @return Posizione in {@link #obj} di {@code item}; se non trovato -1
+	 * Check if the given item is present in the queque
+	 * @param item Item to search
+	 * @return Position in {@link #obj} of {@code item}; if not found return -1
 	 */
 	private int contains(T item) {
 		assert item != null;

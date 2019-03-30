@@ -4,16 +4,16 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * Listenere per il caricamento di un'istanza di una classe da stream
- * @param <T> Tipologia di classe da caricare
+ * Interface to load an element of the preferences
+ * @param <T> Type of the class to load
  */
 interface PrefLoader<T> {
 	
 	/**
-	 * Carica un istanza della classe dallo stread
-	 * @param str Stream dal quale ottenere i dati
-	 * @return Istanza caricata
-	 * @throws IOException Se c'è un errore di IO
+	 * Load the element from the stream
+	 * @param str Stream from which load the object of the preference
+	 * @return Loaded object
+	 * @throws IOException In case of IO error
 	 */
 	T load(DataInputStream str) throws IOException;
 	

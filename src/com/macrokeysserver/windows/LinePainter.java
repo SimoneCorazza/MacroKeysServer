@@ -22,7 +22,6 @@ class LinePainter
 	/*
 	 *  The line color will be calculated automatically by attempting
 	 *  to make the current selection lighter by a factor of 1.2.
-	 *
 	 *  @param component  text component that requires background line painting
 	 */
 	public LinePainter(JTextComponent component)
@@ -33,22 +32,21 @@ class LinePainter
 
 	/*
 	 *  Manually control the line color
-	 *
-	 *  @param component  text component that requires background line painting
-	 *  @param color      the color of the background line
+	 *  @param component Text component that requires background line painting
+	 *  @param color The color of the background line
 	 */
 	public LinePainter(JTextComponent component, Color color)
 	{
 		this.component = component;
 		setColor( color );
 
-		//  Add listeners so we know when to change highlighting
+		// Add listeners so we know when to change highlighting
 
 		component.addCaretListener( this );
 		component.addMouseListener( this );
 		component.addMouseMotionListener( this );
 
-		//  Turn highlighting on by adding a dummy highlight
+		// Turn highlighting on by adding a dummy highlight
 
 		try
 		{
@@ -59,8 +57,7 @@ class LinePainter
 
 	/*
 	 *	You can reset the line color at any time
-	 *
-	 *  @param color  the color of the background line
+	 *  @param color The color of the background line
 	 */
 	public void setColor(Color color)
 	{
@@ -69,7 +66,6 @@ class LinePainter
 
 	/*
 	 *  Calculate the line color by making the selection color lighter
-	 *
 	 *  @return the color of the background line
 	 */
 	public void setLighter(Color color)

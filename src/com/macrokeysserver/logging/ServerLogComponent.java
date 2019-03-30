@@ -18,30 +18,22 @@ import com.macrokeysserver.logging.LogDatabase.LogRecordCursor;
 import com.macrokeysserver.logging.MacroServerLogManager.LogEventListener;
 
 /**
- * Componente della GUI che permette di mostrare i log del server
+ * GUI component to show the log of a server actions
  */
 public class ServerLogComponent extends JPanel {
-	
-	/** 
-	 * Manager dei log relativi ai {@link MacroServer};
-	 * null se this è ustato per mostrare 
-	 * */
-	private MacroServerLogManager logMnager;
 	
 	
 	private final DefaultListModel<LogEvent> items = new DefaultListModel<>();
 	private final JList<LogEvent> lstItems = new JList<>(items);
 	
 	/**
-	 * @param logMnager Manager dal quale ottenere i log
-	 * @throws NullPointerException Se {@code logManager} è null
+	 * @param logMnager Manager of the logs
 	 */
-	public ServerLogComponent(MacroServerLogManager logMnager) {
+	public ServerLogComponent(@NonNull MacroServerLogManager logMnager) {
 		Objects.requireNonNull(logMnager);
 		
 		init();
 		
-		this.logMnager = logMnager;
 		logMnager.addLogEventListener(new LogEventListener() {
 			
 			@Override
@@ -60,10 +52,9 @@ public class ServerLogComponent extends JPanel {
 	
 	
 	/**
-	 * @param logs Cursore per i risultati della query
-	 * @throws NullPointerException Se {@code logs} è null
+	 * @param logs Cursor for the result of a query
 	 */
-	public ServerLogComponent(LogRecordCursor logs) {
+	public ServerLogComponent(@NonNull LogRecordCursor logs) {
 		Objects.requireNonNull(logs);
 		
 		init();
@@ -77,7 +68,7 @@ public class ServerLogComponent extends JPanel {
 	
 	
 	/**
-	 * Inizializzazione comune ai costruttori
+	 * Common initializzation for the constructors
 	 */
 	private void init() {
 		setLayout(new BorderLayout(0, 0));
@@ -87,7 +78,7 @@ public class ServerLogComponent extends JPanel {
 	
 	
 	/**
-	 * Racchiude i dati di un evento di log
+	 * Log data
 	 */
 	class LogEvent {
 		final Date time;

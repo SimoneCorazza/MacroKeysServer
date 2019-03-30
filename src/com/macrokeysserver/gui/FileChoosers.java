@@ -12,8 +12,7 @@ import com.macrokeysserver.option.Options;
 
 
 /**
- * Raggruppa i {@link JFileChooser} utilizzati per il caricamento
- * o salvataggio di qualcosa
+ * Regroup the {@link JFileChooser} used for the loading/saving of something
  */
 public final class FileChoosers {
 	
@@ -23,13 +22,10 @@ public final class FileChoosers {
 	
 	
 	/**
-	 * Apre una {@link JFileChooser} che consente all'utente di
-	 * selezionare una {@link MacroSetup}
-	 * @param parent Il componente padre della {@link JFileChooser};
-	 * può essere null
-	 * @return Path selezionata dall'utente; null se l'utente annulla
-	 * l'operazione
-	 * @throws NullPointerException Se {@code parent} è null
+	 * Open a {@link JFileChooser} for the selecion
+	 * of a {@link MacroSetup}
+	 * @param parent Fether of the {@link JFileChooser}; null if none
+	 * @return Path selected by the user; is null if the user cancel the operation
 	 * @see JFileChooser#showOpenDialog(Component)
 	 */
 	public static String macroSetup(Component parent) {

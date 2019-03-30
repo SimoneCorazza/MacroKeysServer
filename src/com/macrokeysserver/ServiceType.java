@@ -2,8 +2,9 @@ package com.macrokeysserver;
 
 
 /**
- * Elenco delle tipologie di connessioni
+ * List of connection types
  */
+// TODO: implementt as method of MecroServer
 public enum ServiceType {
 	TCP_IP,
 	Bluetooth,

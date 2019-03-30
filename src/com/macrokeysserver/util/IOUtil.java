@@ -9,20 +9,23 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-/** Classe statica per utilità di IO */
+import org.eclipse.jdt.annotation.NonNull;
+
+/** Static class for IO utilities */
 public final class IOUtil {
 
 	private IOUtil() {}
 	
 	/**
-	 * Carica un file di testo
-	 * @param path - Percorso del file di testo
-	 * @param charset - Set di caratteri da utilizzare per la decodifica {@link StandardCharsets}
-	 * @return File di testo caricato; aggiungendo un "\n" in più alla fine
-	 * @throws IOException - Se si verifica un errore di IO
+	 * Load a text file
+	 * @param path Path of the text file
+	 * @param charset Charset for the decoding {@link StandardCharsets}
+	 * @return Content of the text file; an "\n" is added at the end of the file
+	 * @throws IOException In case of IO error
 	 * @see StandardCharsets
 	 */
-	public static String loadAsTextFile(String path, Charset charset) throws IOException {
+	public static String loadAsTextFile(@NonNull String path,
+			@NonNull Charset charset) throws IOException {
 		Objects.requireNonNull(path);
 		Objects.requireNonNull(charset);
 		
@@ -51,10 +54,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * @param f - File da cui estrarre l'estensione
-	 * @return Estensione del file; null se non presente
+	 * Get the extension of a file
+	 * @param f File from witch get the extension
+	 * @return File extension; null if not present
 	 */
-    public static String getExtension(File f) {
+    public static String getExtension(@NonNull File f) {
     	Objects.requireNonNull(f);
     	
         String s = f.getName();
@@ -62,10 +66,11 @@ public final class IOUtil {
     }
     
     /**
-	 * @param p - Path del file
-	 * @return Estensione del file; null se non presente
+     * Get the extension of a file
+	 * @param p Fil path
+	 * @return File extension; null if not present
 	 */
-    public static String getExtension(String p) {
+    public static String getExtension(@NonNull String p) {
     	Objects.requireNonNull(p);
     	
         int i = p.lastIndexOf('.');

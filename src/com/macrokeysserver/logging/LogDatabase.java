@@ -22,20 +22,20 @@ import com.macrokeys.comunication.MacroServer;
 import com.macrokeysserver.logging.MacroServerLogManager.LogEventListener;
 
 /**
- * Memorizza i log all'interno del database
+ * Stor the log inside the databse
  */
 public class LogDatabase {
 	
 	private static final String CREATE_TABLE_IF_EXISTS = 
 		"CREATE TABLE IF NOT EXISTS LOGS (" +
-		"id INTEGER PRIMARY KEY AUTOINCREMENT," + // ID della tabella
-		// Campi sempre presenti:
-		"date INTEGER NOT NULL," + // Data del log
-		"type INTEGER NOT NULL," + // Tipologia di evento; ordinale dell'enum LogEventType
-		"server VARCHAR(50) NOT NULL," + // Tipologia di server che genera l'evento
-		"message TEXT NOT NULL," + // Messaggio del log
-		// Campi presenti in base alla tipologia di log:
-		"client VARCHAR(100)" + // Nome del client; NULL se il client non c'entra con l'evento loggato
+		"id INTEGER PRIMARY KEY AUTOINCREMENT," + // Table ID
+		// Fields always present:
+		"date INTEGER NOT NULL," + // Date of the log
+		"type INTEGER NOT NULL," + // Type of the event; ordinal number of the enum LogEventType
+		"server VARCHAR(50) NOT NULL," + // Server type that generated the event
+		"message TEXT NOT NULL," + // Log message
+		// Field present in a per log type base:
+		"client VARCHAR(100)" + // Name of the client; NULL if the client does not matter in this logged event
 		")";
 	
 	private static final String INSERT_LOG = 
@@ -53,8 +53,8 @@ public class LogDatabase {
 	private final LinkedBlockingQueue<Runnable> runnablesQueque;
 	
 	/**
-	 * @param logManager Manager dei log
-	 * @throws SQLException Se c'è un errore nella query
+	 * @param logManager Log manager
+	 * @throws SQLException If an SQL error occur
 	 */
 	public LogDatabase(MacroServerLogManager logManager)
 			throws SQLException {
@@ -77,8 +77,8 @@ public class LogDatabase {
 	
 	
 	/**
-	 * Ottiene i log memorizzati
-	 * @return Cursore per scorrere i vari risultati
+	 * Gets the stored records
+	 * @return Cursor to navigate the results
 	 */
 	public LogRecordCursor historyLog() {
 		try {
@@ -94,7 +94,7 @@ public class LogDatabase {
 	
 	
 	/**
-	 * Listener per gli eventi dei {@link MacroServer}
+	 * Listener for the events of a {@link MacroServer}
 	 */
 	private class Listener implements LogEventListener {
 
@@ -120,7 +120,7 @@ public class LogDatabase {
 						try {
 							insertStm.clearParameters();
 						} catch(SQLException ignored) {
-							// Ignoro
+							// Ignore
 						}	
 					}
 				}
@@ -130,7 +130,7 @@ public class LogDatabase {
 	
 	
 	/**
-	 * Classe che rappresetna un record immutabile della tabella di log
+	 * Class for an immutable record of the log table
 	 */
 	public class LogRecord {
 		public final long id;
@@ -154,7 +154,7 @@ public class LogDatabase {
 	
 	
 	/**
-	 * Cursore per scorrere {@link LogRecord} ottenuti da una query
+	 * Cursor to navigate a {@link LogRecord} obtained by a query
 	 */
 	public class LogRecordCursor {
 		
@@ -168,12 +168,12 @@ public class LogDatabase {
 		
 		
 		/**
-		 * Chiamata sincrona per ottenere i record dalla query eseguita
-		 * @param num Numero massimo di record da ottenere
-		 * @return Collezzione contenente i record; mai null
-		 * @throws IllegalArgumentException Se {@code num} è <= 0
+		 * Sincronous call to get the records of an executed query
+		 * @param num Maximum number of record to get
+		 * @return Record collections
+		 * @throws IllegalArgumentException If {@code num} is <= 0
 		 */
-		public Collection<LogRecord> fetchRecords(int num) {
+		public @NonNull Collection<LogRecord> fetchRecords(int num) {
 			if(num <= 0) {
 				throw new IllegalArgumentException("Number must be > 0");
 			}

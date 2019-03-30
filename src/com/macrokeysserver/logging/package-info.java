@@ -1,4 +1,4 @@
 /**
- * Contiene strutture per effettuare il log delle azioni eseguite dal server
+ * Package for the log logic of the events of a server
  */
 package com.macrokeysserver.logging;

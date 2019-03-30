@@ -38,7 +38,6 @@ class LineHighlighter extends DefaultHighlighter
 
     /**
      * Same algo, except width is not modified with the insets.
-     * 
      * @see javax.swing.text.DefaultHighlighter#paint(java.awt.Graphics)
      */
     @Override
@@ -56,7 +55,6 @@ class LineHighlighter extends DefaultHighlighter
                 final Insets insets = this.component.getInsets();
                 a.x = insets.left;
                 a.y = insets.top;
-                // a.width -= insets.left + insets.right + 100;
                 a.height -= insets.top + insets.bottom;
                 for (; i < len; i++)
                 {

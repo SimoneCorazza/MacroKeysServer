@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import org.eclipse.jdt.annotation.NonNull;
+
 import java.util.Map.Entry;
 
 
@@ -32,7 +36,7 @@ public class OptionManager {
 	
 	
 	/**
-	 * @return Path del file delle opzioni
+	 * @return Path of the option file
 	 */
 	public String getPath() {
 		return path;
@@ -40,9 +44,11 @@ public class OptionManager {
 	
 	
 	/**
-	 * Carica dal file le opzioni.
-	 * I dati attualmente memorizzati e non salvati verranno persi.
-	 * @throws IOException In caso di errore di IO
+	 * Load from the option file
+	 * <p>
+	 * Overwrites the actual stored data.
+	 * </p>
+	 * @throws IOException In case of an IO error
 	 */
 	public void load() throws IOException {
 		map.clear();
@@ -51,10 +57,10 @@ public class OptionManager {
 		DataInputStream di = new DataInputStream(is);
 		
 		try {
-			// Header: numero di entry
+			// Header: number of entity
 			int count = di.readInt();
 			
-			// Campo dati: coppie (chiavi, dati)
+			// Data body: coples (key, data)
 			for(int i = 0; i < count; i++) {
 				String key = di.readUTF();
 				int length = di.readInt();
@@ -63,7 +69,6 @@ public class OptionManager {
 				
 				map.put(key, data);
 			}
-			
 		} catch(IOException e) {
 			throw e;
 		} finally {
@@ -73,18 +78,18 @@ public class OptionManager {
 	
 	
 	/**
-	 * Salva nel file le opzioni
-	 * @throws IOException In caso di errore di IO
+	 * Save in the option file
+	 * @throws IOException In case of an IO error
 	 */
 	public void save() throws IOException {
 		FileOutputStream os = new FileOutputStream(path);
 		DataOutputStream ds = new DataOutputStream(os);
 		
 		try {
-			// Header: numero di entry
+			// Header: number of entity
 			ds.writeInt(map.size());
 			
-			// Campo dati: memorizzazione coppie (chiavi, dati)
+			// Data body: coples (key, data)
 			for(Entry<String, byte[]> e : map.entrySet()) {
 				ds.writeUTF(e.getKey());
 				ds.writeInt(e.getValue().length);
@@ -96,7 +101,7 @@ public class OptionManager {
 			try {
 				ds.close();
 			} catch(IOException e) {
-				// Ignoro
+				// Ignore
 			}
 		}
 		
@@ -128,9 +133,9 @@ public class OptionManager {
 	
 	
 	/**
-	 * Inserisce la lista alla chiave associata
-	 * @param key Chiave che identifica il dato
-	 * @param l Lista da memorizzare
+	 * Insert the list at the associated key
+	 * @param key Key of the data
+	 * @param l List to store
 	 */
 	public void put(String key, List<String> l) {
 		final PrefSaver<String> s = new PrefSaver<String>() {
@@ -144,10 +149,10 @@ public class OptionManager {
 	
 	
 	/**
-	 * Ottiene la lista dalla chiave indicata
-	 * @param key Chiave che identifica il dato
-	 * @param def Valore di default se la chiave non viene trovata
-	 * @return Lista memorizzata
+	 * Gets the list of the given key
+	 * @param key Key of the list to get
+	 * @param def Default value if the key is not found
+	 * @return Stored list or {@code def}
 	 */
 	public List<String> get(String key, List<String> def) {
 		final PrefLoader<String> l = new PrefLoader<String>() {
@@ -162,15 +167,13 @@ public class OptionManager {
 	
 	
 	/**
-	 * Memorizza i dati forniti da {@code saver}
-	 * @param key Chiave che identifica il dato
-	 * @param item Elemento da memrorizzare
-	 * @param saver Interfaccia che memorizza in uno stream {@code item}
+	 * Store the datata given by {@code saver}
+	 * @param key Key of the data to store
+	 * @param item Item to store
+	 * @param saver Object used to save the {@code item}
 	 */
-	public <T> void put(String key, T item, PrefSaver<T> saver) {
-		if(key == null) {
-			throw new NullPointerException();
-		}
+	public <T> void put(@NonNull String key, T item, PrefSaver<T> saver) {
+		Objects.requireNonNull(key);
 		
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		DataOutputStream ds = new DataOutputStream(os);
@@ -186,23 +189,23 @@ public class OptionManager {
 			try {
 				os.close();
 			} catch (IOException e) {
-				// Niente
+				// Nothing
 			}
 		}
 	}
 	
 	
+	
 	/**
-	 * Ottiene i dati dalla chiave indicata
-	 * @param key Chiave che identifica il dato
-	 * @param loader Interfaccia che carica dal formato binario i dati
-	 * @param def Valore di default se la chiave non viene trovata
-	 * @return Dati caricati
+	 * Gets the data associated with the given key
+	 * @param key Key that identifies the data
+	 * @param loader Loader that load the data
+	 * @param def Default value if the key is not found
+	 * @return Loaded data or the default data
 	 */
-	public <T> T get(String key, PrefLoader<T> loader, T def) {
-		if(key == null || loader == null) {
-			throw new NullPointerException();
-		}
+	public <T> T get(@NonNull String key, @NonNull PrefLoader<T> loader, T def) {
+		Objects.requireNonNull(key);
+		Objects.requireNonNull(loader);
 		
 		if(!map.containsKey(key)) {
 			return def;
@@ -222,7 +225,7 @@ public class OptionManager {
 			try {
 				is.close();
 			} catch (IOException e) {
-				// Niente
+				// Nothing
 			}
 		}
 	}
@@ -230,11 +233,11 @@ public class OptionManager {
 	
 	
 	/**
-	 * Ottiene la lista memorizzata nelle preferenze
-	 * @param key Chiave della proprietà
-	 * @param loader Permette di caricare gli elementi della lista dallo stream
-	 * @param def Valore di default se la chiave non viene trovata
-	 * @return Lista di elementi memorizzati o valore di default
+	 * Gests the list stored in preferences
+	 * @param key Key of the property
+	 * @param loader Loads the items of the list of the stream
+	 * @param def Default value if the key is not found
+	 * @return List of stored items or default value {@code def} 
 	 */
 	public <T> List<T> getList(String key, PrefLoader<T> loader,
 			List<T> def) {
@@ -242,7 +245,6 @@ public class OptionManager {
 			throw new NullPointerException();
 		}
 		
-		// Caso chiave non presente
 		if(!map.containsKey(key)) {
 			return def;
 		}
@@ -268,23 +270,23 @@ public class OptionManager {
 			try {
 				is.close();
 			} catch(IOException e) {
-				// Niente
+				// Nothing
 			}
 		}
 	}
 	
 	
 	/**
-	 * Inserisce la lista indicata nelle opzioni
-	 * @param key Chiave della proprietà
-	 * @param saver Funzione per salvare gli item
-	 * @param data Lista da salvere
-	 * @throws NullPointerException Se un parametro è null
+	 * Insert the given list in the options
+	 * @param key Key of the property
+	 * @param saver Function to save the items
+	 * @param data List to save
 	 */
-	public <T> void putList(String key, PrefSaver<T> saver, List<T> data) {
-		if(saver == null || data == null) {
-			throw new NullPointerException();
-		}
+	public <T> void putList(@NonNull String key, @NonNull PrefSaver<T> saver,
+			@NonNull List<T> data) {
+		Objects.requireNonNull(key);
+		Objects.requireNonNull(saver);
+		Objects.requireNonNull(data);
 		
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		DataOutputStream str = new DataOutputStream(os);
@@ -302,7 +304,7 @@ public class OptionManager {
 			try {
 				os.close();
 			} catch(IOException e) {
-				// Niente
+				// Nothing
 			}
 		}
 	}

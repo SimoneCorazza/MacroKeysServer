@@ -11,6 +11,8 @@ import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 import com.macrokeys.MSLoadException;
 import com.macrokeys.MacroKey;
 import com.macrokeys.MacroSetup;
@@ -42,11 +44,13 @@ import javax.swing.JSeparator;
 
 public class WindowMain extends JFrame {
 
-	/** Manager dei server */
+	/** Server manager */
 	private final MacroServerManager manager;
-	/** Manager per il log delle {@link MacroServer} */
+	
+	/** Log manager for the {@link MacroServer} */
 	private final MacroServerLogManager logManager;
-	/** Gestisce i log memorizzati nel database (memorizzazione e query) */
+	
+	/** Manager for the log database (storage and query) */
 	private LogDatabase dbLogger;
 	
 	private JMenuItem mniStartAllServers;
@@ -55,8 +59,8 @@ public class WindowMain extends JFrame {
 	private JCheckBoxMenuItem mniSuspendMacExec;
 	private ServerLogComponent logger;
 	
-	/** Chache del percorso al file che ha generato l'attuale macro setup;
-		null se non ancora impostata
+	/** 
+	 * Path of the actually used {@link MacroSetup} file; null if not set yet
 	 */
 	private String pathMacroSetup;
 	private JMenuItem mniStartNetServer;
@@ -83,22 +87,22 @@ public class WindowMain extends JFrame {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 			
 			@Override
 			public void windowIconified(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 			
 			@Override
 			public void windowDeiconified(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 			
 			@Override
 			public void windowDeactivated(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 			
 			@Override
@@ -108,16 +112,16 @@ public class WindowMain extends JFrame {
 			
 			@Override
 			public void windowClosed(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 			
 			@Override
 			public void windowActivated(WindowEvent e) {
-				// Nienete
+				// Nothing
 			}
 		});
 		
-		// Listener per il MenuItem
+		// Listener for the MenuItem
 		manager.addListener(new MenuGUIHandler());
 		
 		
@@ -247,12 +251,12 @@ public class WindowMain extends JFrame {
 			
 			@Override
 			public void menuDeselected(MenuEvent e) {
-				// Niente
+				// Nothing
 			}
 			
 			@Override
 			public void menuCanceled(MenuEvent e) {
-				// Niente
+				// Nothing
 			}
 		});
 		mnNewMenu.add(mniRecentMacroSetups);
@@ -297,14 +301,14 @@ public class WindowMain extends JFrame {
 				manager.changeMacroSetup(setup);
 				pathMacroSetup = path;
 				
-				// Aggiungo la path alla relativa cronologia
+				// Adding the path to the chronology
 				Options.macroSetupsFiles.add(path);
 			}
 			
 		}
 	}
 	
-	/** Click sul relativo men� item */
+	/** Callback for the suspend MenuItem click */
 	private void mniSuspendMacExec_Selected() {
 		boolean sel = mniSuspendMacExec.isSelected();
 		for(MacroServer s : manager.servers()) {
@@ -314,7 +318,7 @@ public class WindowMain extends JFrame {
 	
 	
 	/**
-	 * Operazioni eseguite prima della chiusura dell'applicazione
+	 * Operations done before the closure of the application
 	 */
 	private void onClose() {
 		manager.closeAllServers();
@@ -323,20 +327,20 @@ public class WindowMain extends JFrame {
 	
 	
 	/**
-	 * Crea il server indicato, se non già creato
-	 * @param t Tipologia di comunicazione del server
-	 * @return True se l'operazione non è stata cancellata dall'utente, False altrimenti
-	 * L'operazione viene cancellata se clicca Annulla nella selezione della MacroSetup
+	 * Create the given server, if not yet created
+	 * @param t Server type
+	 * @return True if the operation was not cancelled by the user, False otherwise
 	 */
 	private boolean createServer(ServiceType t) {
 		assert t != null;
-		// Caso server già presente non faccio niente
+		
+		// If server is present do nothing
 		if(manager.isMacroServerPresent(t)) {
 			return true;
 		}
 		
 		
-		// Se nessuna MacroSetup è stata selezionata
+		// If no MacroSetup was not selected
 		if(manager.getMacroSetup() == null) {
 			String path = FileChoosers.macroSetup(this);
 			if(path == null) {
@@ -355,10 +359,11 @@ public class WindowMain extends JFrame {
 			}
 			
 			assert setup != null;
-			// Inizializzo il valore della setup
+			
+			// Init the value of the MacroSetup
 			manager.changeMacroSetup(setup);
 			
-			// Aggiungo la path alla relativa cronologia
+			// Add the path in the chronology
 			Options.macroSetupsFiles.add(path);
 		}
 		
@@ -402,8 +407,8 @@ public class WindowMain extends JFrame {
 	
 	
 	/**
-	 * Listener per gli eventi dei servers di {@link MacroServerManager}
-	 * per aggiornare l'UI del Menu
+	 * Listener for the server events {@link MacroServerManager}
+	 * to update the UI of the menus
 	 */
 	private class MenuGUIHandler implements ServerManagerListener {
 		
@@ -415,23 +420,23 @@ public class WindowMain extends JFrame {
 		@Override
 		public void onMacroSetupChanged(MacroServer server,
 				MacroSetup actual) {
-			// Niente
+			// Nothing
 		}
 		
 		@Override
 		public void onKeyReceved(MacroServer server, String sender,
 				MacroKey mk, boolean action) {
-			// Nienete
+			// Nothing
 		}
 		
 		@Override
 		public void onDisconnectListener(MacroServer server, String sender) {
-			// Niente
+			// Nothing
 		}
 		
 		@Override
 		public void onConnectListener(MacroServer server, String sender) {
-			// Niente
+			// Nothing
 		}
 		
 		@Override
@@ -456,11 +461,11 @@ public class WindowMain extends JFrame {
 		
 		
 		/**
-		 * Abilita/Disabilita i relativi menù in base all'evento occorso
-		 * @param s Server soggetto dell'evento; non null
-		 * @param e Evento intercorso. True server partito; False server fermato
+		 * Enable/Disable the menus based on the fired event
+		 * @param s Server subject of the event
+		 * @param e True if server started, False server stopped
 		 */
-		private void updateMenuInteraction(MacroServer s, boolean e) {
+		private void updateMenuInteraction(@NonNull MacroServer s, boolean e) {
 			switch (MacroServerManager.serverService(s)) {
 			case TCP_IP:
 				mniStartNetServer.setEnabled(!e);
@@ -477,7 +482,7 @@ public class WindowMain extends JFrame {
 			
 			}
 			
-			// Menù sospensione abilitato sse c'è almeno un server
+			// Suspension menu enabed iif there is at least one server
 			boolean stLeastOneServer = manager.isAtLeastOneServerPresent();
 			mniSuspendMacExec.setEnabled(stLeastOneServer);
 		}

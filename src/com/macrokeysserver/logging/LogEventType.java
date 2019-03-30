@@ -1,7 +1,7 @@
 package com.macrokeysserver.logging;
 
 /**
- * Tipologia di evento di log
+ * Log type
  */
 public enum LogEventType {
 	ClientConnected,

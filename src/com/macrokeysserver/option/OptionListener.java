@@ -2,13 +2,13 @@ package com.macrokeysserver.option;
 
 
 /**
- * Listener ai cambiamenti delle opzioni
+ * Listener for changes at the options
  */
 public interface OptionListener {
 	
 	/**
-	 * Se una path è stata aggiunta nell'elenco dell macroSetup recenti
-	 * @param path Path aggiunta
+	 * Callback called at the insertion af a path in the macroSetup used recentlly
+	 * @param path Added path
 	 */
 	void macroSetupPathAdded(String path);
 	

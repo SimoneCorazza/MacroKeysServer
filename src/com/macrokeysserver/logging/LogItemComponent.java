@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 import com.macrokeysserver.logging.ServerLogComponent.LogEvent;
 
 public class LogItemComponent implements ListCellRenderer<LogEvent> {
@@ -67,11 +69,11 @@ public class LogItemComponent implements ListCellRenderer<LogEvent> {
 	
 	
 	/**
-	 * Formatta la data indicata
-	 * @param d Data da formattare; non null
-	 * @return Stringa della data formattata
+	 * Format the given date
+	 * @param d Date to format
+	 * @return Formatted date
 	 */
-	private static String formatDate(Date d) {
+	private static String formatDate(@NonNull Date d) {
 		assert d != null;
 		
 		return new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss.SSS]").format(d);
@@ -80,7 +82,7 @@ public class LogItemComponent implements ListCellRenderer<LogEvent> {
 	
 	
 	/**
-	 * Item di un log
+	 * Log item
 	 */
 	private static class ItemC extends JPanel {
 		
@@ -125,10 +127,10 @@ public class LogItemComponent implements ListCellRenderer<LogEvent> {
 		
 		
 		/**
-		 * @param t Tipologia di log; non null
-		 * @return Colore associata alla tipologia di log
+		 * @param t Log type
+		 * @return Associated color at the log type
 		 */
-		private static Color eventColor(LogEventType t) {
+		private static Color eventColor(@NonNull LogEventType t) {
 			assert t != null;
 			
 			switch(t) {
@@ -150,8 +152,8 @@ public class LogItemComponent implements ListCellRenderer<LogEvent> {
 		
 		
 		/**
-		 * Imposta lo stato di selezione del controllo
-		 * @param sel Nuovo stato di selezione
+		 * Selected state of this control
+		 * @param sel True for selected, false otherwise
 		 */
 		public void setSelected(boolean sel) {
 			if(sel != selected) {

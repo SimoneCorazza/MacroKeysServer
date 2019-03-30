@@ -21,20 +21,18 @@ import com.macrokeys.netcode.MacroNetServer;
 import com.macrokeysserver.bluetooth.MacroBluetoothServer;
 
 /**
- * Permette di controllare le varie istanze di {@link MacroServer}
+ * Manager for the instances of {@link MacroServer}
  */
 public class MacroServerManager {
 	
 	private final EventListenerList listeners = new EventListenerList();
 	
-	/** Setup attualmente utilizzata; inizialmente null */
+	/** Setup actually used; initially null */
 	private MacroSetup setup;
 	
 	
-	
 	/**
-	 * Elenco di server attualmente presenti; in qualsiasi istante ci può
-	 * essere solo un server per ogni tipologia
+	 * Servers actually present; there can be only one type of service ata a time
 	 */
 	private final Map<ServiceType, MacroServer> servers = new HashMap<>();
 	
@@ -51,10 +49,10 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Aggiunge un listener per gli eventi
-	 * @param l Evento da aggiungere; non null
+	 * Add a listener for the events
+	 * @param l Event to add
 	 */
-	public void addListener(ServerManagerListener l) {
+	public void addListener(@NonNull ServerManagerListener l) {
 		Objects.requireNonNull(l);
 		
 		listeners.add(ServerManagerListener.class, l);
@@ -68,10 +66,10 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Rimuove un listener per gli eventi
-	 * @param l Evento da rimuovere; non null
+	 * Remove a listener from the events
+	 * @param l Event to remove
 	 */
-	public void removeListener(ServerManagerListener l) {
+	public void removeListener(@NonNull ServerManagerListener l) {
 		Objects.requireNonNull(l);
 		
 		listeners.remove(ServerManagerListener.class, l);
@@ -84,7 +82,7 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * @return Lista contenente tutti i server attivi
+	 * @return Servers actually active
 	 */
 	public List<MacroServer> servers() {
 		return new ArrayList<>(servers.values());
@@ -92,7 +90,7 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * @return True se c'è almento un server, False altriemnti
+	 * @return True if there is at least one server, false otherwise
 	 */
 	public boolean isAtLeastOneServerPresent() {
 		return servers.size() > 0;
@@ -100,13 +98,9 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Permette di cambiare la {@link MacroSetup} che verrà usata da tutti i
-	 * {@link MacroServer} presenti e futuri.
-	 * <p>E' necessario chiamare questo metodo prima di creare un qualsiasi
-	 * {@link MacroServer}
-	 * </p>
-	 * @param setup Nuova setup da utilizzare; non null
-	 * @throws NullPointerException se {@code setup} è null
+	 * Sets the {@link MacroSetup} used by all {@link MacroServer}
+	 * <p>Call this method before adding any {@link MacroServer}</p>
+	 * @param setup Setup to use
 	 */
 	public void changeMacroSetup(@NonNull MacroSetup setup) {
 		Objects.requireNonNull(setup);
@@ -119,7 +113,7 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * @return {@link MacroSetup} attualmente utilizzata; null se mai impostata
+	 * @return {@link MacroSetup} used; null if never set
 	 */
 	public MacroSetup getMacroSetup() {
 		return setup;
@@ -128,24 +122,19 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Imposta il server per le connessioni TCP/IP.
-	 * Il veccho server viene chiuso.
+	 * Sets the server for TCP/IP connections
+	 * The old server, if present, is closed
 	 * <p>
-	 * La {@link MacroSetup} inizialmente utilizzata equivale a {@link #getMacroSetup()}.
+	 * Before calling this method the {@link MacroSetup} it must be set by calling
+	 * {@link #changeMacroSetup()}
 	 * </p>
-	 * <p>
-	 * Prima di chiamare questo metodo è bene che la {@link MacroSetup} venga settata tramite
-	 * {@link #getMacroSetup()}
-	 * </p>
-	 * @throws AWTException Se c'è un problema con l'inizializzazione di
-	 * {@link Robot}
-	 * @throws IOException Se c'è un problema nella creazione del socket del server
-	 * @throws IllegalStateException Se la {@link MacroSetup} non è stata settata
+	 * @throws AWTException If occur an error initializing {@link Robot}
+	 * @throws IOException In case of IO error
+	 * @throws IllegalStateException If the {@link MacroSetup} was not set
 	 * @see MacroNetServer#MacroNetServer(int, String, MacroSetup)
 	 * @see #changeMacroSetup(MacroSetup)
 	 */
-	public void macroNetServer()
-			throws IOException, AWTException {
+	public void macroNetServer() throws IOException, AWTException {
 		if(getMacroSetup() == null) {
 			throw new IllegalStateException("Macro setup not set");
 		}
@@ -161,19 +150,15 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Imposta il server per le connessioni Bluetooth.
-	 * Il veccho server, se presente, viene chiuso.
+	 * Sets the server for Bluetooth connections
+	 * The old server, if present, is closed
 	 * <p>
-	 * La {@link MacroSetup} inizialmente utilizzata equivale a {@link #getMacroSetup()}.
+	 * Before calling this method the {@link MacroSetup} it must be set by calling
+	 * {@link #changeMacroSetup()}
 	 * </p>
-	 * <p>
-	 * Prima di chiamare questo metodo è bene che la {@link MacroSetup} venga settata tramite
-	 * {@link #getMacroSetup()}
-	 * </p>
-	 * @throws IOException Se c'è un problema nell'inizializzazione del server
-	 * @throws AWTException Se c'è un problema con l'inizializzazione di
-	 * {@link Robot}
-	 * @throws IllegalStateException Se la {@link MacroSetup} non è stata settata
+	 * @throws AWTException If occur an error initializing {@link Robot}
+	 * @throws IOException In case of IO error
+	 * @throws IllegalStateException If the {@link MacroSetup} was not set
 	 * @see MacroBluetoothServer#MacroBluetoothServer(MacroSetup)
 	 * @see #changeMacroSetup(MacroSetup)
 	 */
@@ -194,41 +179,40 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Esegue le operazioni comuni all'aggiunta di un nuovo server:
-	 * <li>Aggiunge il server all'elenco dei server
-	 * <li>Aggiungere gli eventi {@link #listeners} al nuovo {@link MacroServer} {@code s}
-	 * <li>Generare l'evento di aggiunta di un server
-	 * @param t Tipologia del server
-	 * @param s Server da aggiungere
+	 * Common operations for init a new server:
+	 * <li>Adds the server to the list of servers
+	 * <li>Adds the events {@link #listeners} at the new {@link MacroServer} {@code s}
+	 * <li>Generates the event of adding the new server
+	 * @param t Type of server
+	 * @param s Server to add
 	 */
 	private void commonProcedureAddMacroServer(@NonNull ServiceType t,
 			@NonNull MacroServer s) {
 		servers.put(t, s);
 		
-		// Aggiungo gli eventi
+		// Adds the events
 		for(ServerManagerListener l : 
 			listeners.getListeners(ServerManagerListener.class)) {
 			s.addEventListener(l);
 		}
 		
-		// Genero l'evento di aggiunta del server
+		// Generate the event of adding a new server
 		fireServerStart(s);
 	}
 	
 	
 	
 	/**
-	 * Chiude il server indicato, se presente
-	 * @param s Tipologia di server da chiudere
+	 * Close the given server, if present
+	 * @param s Type of server to close
 	 */
 	public void closeMacroServer(@NonNull ServiceType s) {
 		MacroServer server = servers.get(s);
 		if(server != null) {
-			// MacroServer.close() genera il relativo evento e this, per
-			// coerenza, deve mostrare che il server non è più contenuto
 			servers.remove(s);
 			server.close();
-			// Rimuovo gli eventi associati
+			
+			// Remove associated events
 			for(MacroServer.EventListener l : 
 				listeners.getListeners(ServerManagerListener.class)) {
 				server.removeEventListener(l);
@@ -239,11 +223,11 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Chiude tutti i server attualmente attivi
+	 * Closes all active servers
 	 * @see #closeMacroServer(ServiceType)
 	 */
 	public void closeAllServers() {
-		// Clono il set siccome verrà poi modificato nel foreach
+		// Doing the cloning because it will be modified in the foreach
 		Set<ServiceType> se = new HashSet<>(servers.keySet());
 		for(ServiceType t : se) {
 			closeMacroServer(t);
@@ -252,9 +236,10 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * @param s Tipologia di server da verificare la presenza
-	 * @return True se il server che offre la connessione indicata è presente,
-	 * False altriemnti
+	 * Verify the presence of a server
+	 * @param s Type of server
+	 * @return True if the server that offer the given service is present, false
+	 * otherwise
 	 */
 	public boolean isMacroServerPresent(@NonNull ServiceType s) {
 		return servers.containsKey(s);
@@ -263,10 +248,10 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Genera l'evento di creazione di un server
-	 * @param server Server creato; non null
+	 * Generates the event of a server creation
+	 * @param server Created server
 	 */
-	private void fireServerStart(MacroServer server) {
+	private void fireServerStart(@NonNull MacroServer server) {
 		assert server != null;
 		
 		for(ServerManagerListener l : 
@@ -277,8 +262,8 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * @param s Tipologia di server desiderato
-	 * @return Server indicato; null se non presente
+	 * @param s Requested server type
+	 * @return Server present for the given service; null if not present
 	 */
 	public MacroServer getMacroServer(@NonNull ServiceType s) {
 		return servers.get(s);
@@ -287,16 +272,17 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Ottiene la tipologia di servizio offerto dal server
-	 * @param server Server il cui servizio offerto è da scoprire
-	 * @return Servizio offerto dal server; non null
-	 * @throws IllegalArgumentException Se {@code server} non rientra tra le tipologie di server
-	 * @throws NullPointerException Se {@code server} è null
+	 * Gets the service type given the service
+	 * @param server Server for which to discover the service
+	 * @return Service offered by the given server
+	 * @throws IllegalArgumentException If {@code server} is not
+	 * {@link MacroNetServer} or {@link MacroBluetoothServer}
 	 */
-	public static ServiceType serverService(MacroServer server) {
+	public static @NonNull ServiceType serverService(@NonNull MacroServer server) {
 		Objects.requireNonNull(server);
 		
-		if(server instanceof MacroNetServer) {
+		// TODO: should not use instanceof
+		if (server instanceof MacroNetServer) {
 			return ServiceType.TCP_IP;
 		} else if(server instanceof MacroBluetoothServer) {
 			return ServiceType.Bluetooth;
@@ -308,14 +294,14 @@ public class MacroServerManager {
 	
 	
 	/**
-	 * Listener per gli eventi relativi ad un {@link MacroServer}
+	 * Listener for {@link MacroServer} events
 	 */
 	public interface ServerManagerListener extends EventListener, MacroServer.EventListener {
 		
 		/**
-		 * Alla creazione di un nuovo server
-		 * @param server Server creato; non null
+		 * Called at the server creation
+		 * @param server Created server
 		 */
-		public void onStart(MacroServer server);
+		public void onStart(@NonNull MacroServer server);
 	}
 }

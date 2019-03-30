@@ -10,10 +10,9 @@ import com.macrokeys.comunication.MessageProtocol;
 
 
 /**
- * Implementazione del {@link MessageProtocol} per la comunicazione Bluetooth.
+ * Implementation of {@link MessageProtocol} for Bluetooth comunication.
  * <p>
- * Il timeout non è stato implementato siccome la disconnessione viene
- * rilevata automaticamente dallo stato sottostante
+ * Timeout not implemented because the disconnection is detected by the layers below.
  * </p>
  */
 public class BluetoothMessageProtocol implements MessageProtocol {
@@ -44,28 +43,29 @@ public class BluetoothMessageProtocol implements MessageProtocol {
 	
 	@Override
 	public void setInputKeepAlive(int time) {
-		// Implementazione non necessaria
+		// Implementation not needed
 	}
 
 	
 	
 	@Override
 	public int getInputKeepAlive() {
-		return 0; // Implementazione non necessaria
+		return 0; // Implementation not needed
 	}
 
 	
 	
 	@Override
 	public void setOutputKeepAlive(int time) {
-		// Implementazione non necessaria
+		// Implementation not needed
 	}
 
 	
 	
 	@Override
 	public int getOutputKeepAlive() {
-		return 0; // Implementazione non necessaria
+		// Implementation not needed
+		return 0;
 	}
 
 	

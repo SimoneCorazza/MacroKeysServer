@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import com.macrokeys.MacroSetup;
 
 
 
 /**
- * Classe statica che permette la gestione delle opzioni.
- * <p>
- * Consente di gestire, caricare e salavere permanentemente le opzioni.
- * I metodi {@link #load()} e {@link #save()} per il salvataggio e il caricamento delle opzioni.
- * </p>
+ * Static class to manage the persistence of options
  */
 public final class Options {
 	
@@ -25,7 +22,7 @@ public final class Options {
 	private static final List<OptionListener> lis = new ArrayList<>();
 	
 	
-	/** Lista di path recenti relative alle {@link MacroSetup} recentemente caricate */
+	/** Paths of the recent loaded {@link MacroSetup} */
 	public static final LRUQueque<String> macroSetupsFiles = new LRUQueque<>(15);
 	
 	
@@ -35,7 +32,7 @@ public final class Options {
 	
 
 	/**
-	 * Carica le impostazioni dal file
+	 * Load setting from the file
 	 */
 	public static void load() {
 		try {
@@ -53,7 +50,7 @@ public final class Options {
 	
 	
 	/**
-	 * Salva tutte le preferenze
+	 * Save all settings
 	 */
 	public static void save() {
 		pref.put(MACRO_SETUP_RECENT_FILES, macroSetupsFiles.getObjects());
@@ -67,12 +64,13 @@ public final class Options {
 	
 	
 	/**
-	 * Aggiungi una path per una {@link MacroSetup} caricata
+	 * Adds a path for a loaded {@link MacroSetup}
 	 * @param path Path
-	 * @throws IllegalArgumentException Se {@code path} è null o vuota
+	 * @throws IllegalArgumentException If {@code path} is empty
 	 */
 	public static void addMacroSetupPath(String path) {
-		if(path == null || path.isEmpty()) {
+		Objects.requireNonNull(path);
+		if(path.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		
@@ -85,8 +83,8 @@ public final class Options {
 	
 	
 	/**
-	 * Aggiunge un listener
-	 * @param l Listener da aggiungere
+	 * Adds a listener
+	 * @param l Listener to add
 	 */
 	public static void addEventListener(OptionListener l) {
 		if(l == null) {
@@ -98,8 +96,8 @@ public final class Options {
 	
 	
 	/**
-	 * Rimuove il listener indicato se presente
-	 * @param l Listener da rimuovere
+	 * Remove the listener
+	 * @param l Listener to remove
 	 */
 	public static void removeEventLIstener(OptionListener l) {
 		Iterator<OptionListener> it = lis.iterator();
