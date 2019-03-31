@@ -4,7 +4,6 @@ import com.macrokeys.MacroSetup;
 
 /** 
  * Static class for the extensions files.
- * All extensions not have the initial dot (ie. '.txt' not 'txt').
  */
 public final class FileExtensions {
 	
