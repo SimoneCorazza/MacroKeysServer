@@ -74,9 +74,7 @@ public class LRUQueque<T> {
 	 * @param item item to add
 	 */
 	public void add(@NonNull T item) {
-		if(item == null) {
-			throw new NullPointerException();
-		}
+		Objects.requireNonNull(item);
 		assert limit > 0;
 		
 		
