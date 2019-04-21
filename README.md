@@ -2,6 +2,12 @@
 
 Cross platform desktop MacroKeys server.
 
+<div>
+<img width="50%" height="auto" src="pic/Start.jpg"/>
+<img width="49%" height="auto" src="pic/Selection.jpg"/>
+<img width="50%" height="auto" src="pic/Communication.jpg"/>
+</div>
+
 ## Features
 
 - Receive macro keys from the [Android App](https://github.com/SimoneCorazza/MacroKeysAndroid)
@@ -10,7 +16,14 @@ Cross platform desktop MacroKeys server.
 - Trace every keystroke sent
 - Encrypted protocol for added layer of security
 
-## Getting Started
+## How To Use
+
+1. Install the server, the [editor](https://github.com/SimoneCorazza/MacroKeysEditor) and the [Android App](https://github.com/SimoneCorazza/MacroKeysAndroid)
+1. Create a MacroKeys using the **editor**
+4. Connect the **client app** to the **server** (using Bluetooth or Wifi)
+5. Start sending keystrokes to the server
+
+## Build from source
 
 ### Prerequisites
 
