@@ -3,9 +3,9 @@
 Cross platform desktop MacroKeys server.
 
 <div>
-<img width="50%" height="auto" src="pic/Start.jpg"/>
+<img width="49%" height="auto" src="pic/Start.jpg"/>
 <img width="49%" height="auto" src="pic/Selection.jpg"/>
-<img width="50%" height="auto" src="pic/Communication.jpg"/>
+<img width="49%" height="auto" src="pic/Communication.jpg"/>
 </div>
 
 ## Features
