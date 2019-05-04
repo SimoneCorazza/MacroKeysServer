@@ -1,4 +1,14 @@
 language: java
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: target/macro-keys-server.jar
+  skip_cleanup: true
+  on:
+    tags: true
+
 addons:
   sonarcloud:
     organization: "simonecorazza-github"
