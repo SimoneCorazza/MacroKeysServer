@@ -1,3 +1,11 @@
+<br/>
+
+<div align="center">
+    <a href="https://simonecorazza.github.io/MacroKeys/">
+        <img src="https://simonecorazza.github.io/MacroKeys/img/macrokeys-logo.svg" alt="MacroKeys Logo" width="200" height="100">
+    </a>
+</div>
+
 # MacroKeys Server &middot; [![Build Status](https://travis-ci.org/SimoneCorazza/MacroKeysServer.svg?branch=master)](https://travis-ci.org/SimoneCorazza/MacroKeysServer) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.macrokeys%3Amacro-key-server&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.macrokeys%3Amacro-key-server)
 
 Cross platform desktop MacroKeys server.
